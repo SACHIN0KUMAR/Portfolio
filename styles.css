@@ -1,0 +1,848 @@
+/* ============================================
+   TOKENS
+   ============================================ */
+:root {
+  /* Ocean */
+  --ocean-deep: #071e2b;
+  --ocean-mid: #0d3546;
+  --ocean-light: #157a8a;
+  /* Forest */
+  --forest-deep: #16302a;
+  --forest-mid: #234f3c;
+  --forest-light: #6b9b6e;
+  /* Mountain */
+  --stone: #4c5a61;
+  --stone-light: #7f8f94;
+  --snow: #eef4f2;
+  /* Accent */
+  --sunrise: #e8a34c;
+  --sunrise-soft: #f2c184;
+
+  --text-light: #f2f7f5;
+  --text-dim: #b9c9c4;
+  --text-dark: #1b2622;
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Manrope", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", "Courier New", monospace;
+
+  --max-width: 1080px;
+  --transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--text-light);
+  background: var(--ocean-deep);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+img { max-width: 100%; display: block; }
+
+.mono { font-family: var(--font-mono); letter-spacing: 0.04em; }
+
+::selection { background: var(--sunrise); color: var(--text-dark); }
+
+:focus-visible {
+  outline: 2px solid var(--sunrise);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ============================================
+   LAYOUT HELPERS
+   ============================================ */
+.section {
+  position: relative;
+  padding: 7rem 1.5rem 6rem;
+}
+
+.section-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  color: var(--sunrise-soft);
+  margin-bottom: 0.9rem;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.8rem, 4vw, 2.7rem);
+  line-height: 1.2;
+  max-width: 720px;
+  margin-bottom: 1rem;
+}
+
+.section-sub {
+  color: var(--text-dim);
+  max-width: 560px;
+  font-size: 1.02rem;
+  margin-bottom: 2.5rem;
+}
+
+.highlight {
+  color: var(--sunrise-soft);
+  font-weight: 600;
+}
+
+/* ============================================
+   REVEAL ANIMATION
+   ============================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================
+   TRAIL PROGRESS (signature element, desktop)
+   ============================================ */
+.trail-progress {
+  position: fixed;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+}
+
+.trail-line {
+  position: relative;
+  width: 3px;
+  height: 260px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.trail-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background: linear-gradient(to top, var(--ocean-light), var(--forest-light), var(--sunrise));
+  transition: height 0.15s linear;
+}
+
+.trail-markers {
+  position: absolute;
+  left: -3.5px;
+  top: 0;
+  height: 260px;
+  width: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.trail-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
+}
+
+.trail-dot.is-active {
+  background: var(--sunrise);
+  box-shadow: 0 0 10px var(--sunrise);
+  transform: scale(1.3);
+}
+
+@media (max-width: 900px) {
+  .trail-progress { display: none; }
+}
+
+/* Mobile top progress bar */
+.mobile-progress {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(to right, var(--ocean-light), var(--forest-light), var(--sunrise));
+  z-index: 300;
+  transition: width 0.1s linear;
+}
+
+@media (max-width: 900px) {
+  .mobile-progress { display: block; }
+}
+
+/* ============================================
+   NAV
+   ============================================ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 250;
+  background: rgba(7, 30, 43, 0.65);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.nav-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--text-light);
+}
+
+.brand-dot { color: var(--sunrise); }
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-link {
+  font-size: 0.92rem;
+  color: var(--text-dim);
+  position: relative;
+  transition: color var(--transition);
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -6px;
+  width: 0%;
+  height: 1.5px;
+  background: var(--sunrise);
+  transition: width var(--transition);
+}
+
+.nav-link:hover,
+.nav-link.is-active {
+  color: var(--text-light);
+}
+
+.nav-link:hover::after,
+.nav-link.is-active::after {
+  width: 100%;
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+}
+
+.nav-toggle span {
+  width: 22px;
+  height: 2px;
+  background: var(--text-light);
+  transition: transform var(--transition), opacity var(--transition);
+}
+
+@media (max-width: 720px) {
+  .nav-toggle { display: flex; }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0; right: 0;
+    background: rgba(7, 30, 43, 0.97);
+    flex-direction: column;
+    gap: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--transition);
+  }
+
+  .nav-links.is-open {
+    max-height: 320px;
+  }
+
+  .nav-link {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .nav-toggle.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.is-open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+}
+
+/* ============================================
+   HERO — Ocean
+   ============================================ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(21, 122, 138, 0.35), transparent 55%),
+    linear-gradient(180deg, var(--ocean-deep) 0%, var(--ocean-mid) 100%);
+  overflow: hidden;
+  padding-top: 6rem;
+}
+
+.ocean-bubbles span {
+  position: absolute;
+  bottom: -40px;
+  border-radius: 50%;
+  background: rgba(238, 244, 242, 0.08);
+  animation: rise 14s infinite linear;
+}
+.ocean-bubbles span:nth-child(1) { left: 8%;  width: 14px; height: 14px; animation-delay: 0s; }
+.ocean-bubbles span:nth-child(2) { left: 22%; width: 8px;  height: 8px;  animation-delay: 2s; }
+.ocean-bubbles span:nth-child(3) { left: 40%; width: 20px; height: 20px; animation-delay: 4s; }
+.ocean-bubbles span:nth-child(4) { left: 63%; width: 10px; height: 10px; animation-delay: 1s; }
+.ocean-bubbles span:nth-child(5) { left: 78%; width: 16px; height: 16px; animation-delay: 6s; }
+.ocean-bubbles span:nth-child(6) { left: 90%; width: 7px;  height: 7px;  animation-delay: 3s; }
+
+@keyframes rise {
+  0%   { transform: translateY(0) translateX(0); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(-110vh) translateX(20px); opacity: 0; }
+}
+
+.hero-content { max-width: 700px; z-index: 2; }
+
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2.6rem, 8vw, 5rem);
+  line-height: 1.05;
+  margin-bottom: 0.8rem;
+}
+
+.hero-role {
+  font-size: 1.05rem;
+  color: var(--sunrise-soft);
+  margin-bottom: 1.4rem;
+  font-weight: 600;
+}
+
+.hero-tagline {
+  font-size: 1.1rem;
+  color: var(--text-dim);
+  max-width: 560px;
+  margin: 0 auto 2.2rem;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform var(--transition), background var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+
+.btn-primary {
+  background: var(--sunrise);
+  color: var(--text-dark);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(232, 163, 76, 0.35);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.25);
+  color: var(--text-light);
+}
+.btn-ghost:hover {
+  border-color: var(--sunrise-soft);
+  transform: translateY(-2px);
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+}
+
+.scroll-hint-line {
+  width: 1px;
+  height: 34px;
+  background: linear-gradient(to bottom, var(--text-dim), transparent);
+  animation: scrollpulse 2s infinite ease-in-out;
+}
+
+@keyframes scrollpulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+.wave-divider {
+  position: absolute;
+  bottom: -1px; left: 0;
+  width: 100%;
+  height: 90px;
+  fill: var(--forest-deep);
+}
+.wave-divider--forest { fill: var(--forest-mid); }
+.wave-divider--snow { fill: var(--snow); }
+
+/* ============================================
+   ABOUT — Ocean → Forest
+   ============================================ */
+.about {
+  background: linear-gradient(180deg, var(--ocean-mid) 0%, var(--forest-deep) 100%);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 3rem;
+  margin-top: 2rem;
+}
+
+.about-text p {
+  color: var(--text-dim);
+  margin-bottom: 1.2rem;
+  font-size: 1.02rem;
+}
+
+.about-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1.8rem;
+  align-self: start;
+}
+
+.about-card h3 {
+  color: var(--sunrise-soft);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+
+.about-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.about-list li:last-child { border-bottom: none; }
+
+.about-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+}
+
+.about-value {
+  font-size: 0.98rem;
+  font-weight: 600;
+}
+
+@media (max-width: 760px) {
+  .about-grid { grid-template-columns: 1fr; }
+}
+
+/* ============================================
+   SKILLS — Forest
+   ============================================ */
+.skills {
+  background: linear-gradient(180deg, var(--forest-deep) 0%, var(--forest-mid) 100%);
+}
+
+.skills-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+}
+
+.skill-group-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  margin-bottom: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.skill-icon { font-size: 1.1rem; }
+
+.skill-group-sub {
+  color: var(--text-dim);
+  font-size: 0.88rem;
+  margin-bottom: 1.3rem;
+}
+
+.skill-bars li { margin-bottom: 1.1rem; }
+
+.skill-bar-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+}
+
+.skill-pct { color: var(--sunrise-soft); }
+
+.skill-track {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.skill-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--ocean-light), var(--forest-light));
+  transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+
+.tag--growing {
+  background: rgba(107, 155, 110, 0.18);
+  border-color: rgba(107, 155, 110, 0.4);
+  color: #bfe0c2;
+}
+
+.tag--future {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--text-dim);
+}
+
+@media (max-width: 860px) {
+  .skills-columns { grid-template-columns: 1fr; gap: 2.8rem; }
+}
+
+/* ============================================
+   ROADMAP — Forest → Mountain (the trail)
+   ============================================ */
+.roadmap {
+  background: linear-gradient(180deg, var(--forest-mid) 0%, var(--stone) 100%);
+}
+
+.trail-path {
+  position: relative;
+  margin-top: 1rem;
+  padding-left: 2.2rem;
+}
+
+.trail-path::before {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--ocean-light), var(--forest-light), var(--sunrise));
+}
+
+.trail-stop {
+  position: relative;
+  display: flex;
+  gap: 1.6rem;
+  padding-bottom: 2.6rem;
+}
+.trail-stop:last-child { padding-bottom: 0; }
+
+.trail-stop-marker {
+  position: absolute;
+  left: -2.2rem;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--stone);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.62rem;
+  color: var(--text-light);
+  z-index: 2;
+}
+
+.trail-stop--done .trail-stop-marker {
+  background: var(--ocean-light);
+  border-color: var(--ocean-light);
+}
+
+.trail-stop--current .trail-stop-marker {
+  background: var(--sunrise);
+  border-color: var(--sunrise);
+  color: var(--text-dark);
+  box-shadow: 0 0 0 6px rgba(232, 163, 76, 0.2);
+}
+
+.trail-stop--summit .trail-stop-marker {
+  background: var(--snow);
+  border-color: var(--snow);
+  color: var(--text-dark);
+}
+
+.trail-stop-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  margin-bottom: 0.3rem;
+}
+
+.trail-stop-body p {
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  max-width: 480px;
+  margin-bottom: 0.7rem;
+}
+
+.status-pill {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-dim);
+}
+
+.status-pill--done { background: rgba(21, 122, 138, 0.25); color: #a6dbe4; }
+.status-pill--current { background: var(--sunrise); color: var(--text-dark); font-weight: 600; }
+.status-pill--summit { background: var(--snow); color: var(--text-dark); font-weight: 600; }
+
+/* ============================================
+   PROJECTS — Mountain slope
+   ============================================ */
+.projects {
+  background: linear-gradient(180deg, var(--stone) 0%, var(--stone-light) 100%);
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.6rem;
+}
+
+.project-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1.6rem;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.2);
+}
+
+.project-card--upcoming {
+  border-style: dashed;
+  opacity: 0.85;
+}
+
+.project-card-top { margin-bottom: 0.9rem; }
+
+.project-tag {
+  font-size: 0.7rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(232, 163, 76, 0.2);
+  color: var(--sunrise-soft);
+}
+
+.project-tag--upcoming {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-dim);
+}
+
+.project-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+}
+
+.project-card p {
+  color: var(--text-dim);
+  font-size: 0.92rem;
+  margin-bottom: 1.2rem;
+}
+
+.project-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.project-link {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--sunrise-soft);
+  transition: opacity var(--transition);
+}
+.project-link:hover { opacity: 0.7; }
+
+.project-link--disabled {
+  color: var(--text-dim);
+  cursor: default;
+}
+
+@media (max-width: 860px) {
+  .project-grid { grid-template-columns: 1fr; }
+}
+
+/* ============================================
+   CONTACT — Summit
+   ============================================ */
+.contact {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(232, 163, 76, 0.25), transparent 60%),
+    linear-gradient(180deg, var(--stone-light) 0%, var(--snow) 100%);
+  color: var(--text-dark);
+  text-align: center;
+}
+
+.contact .section-title,
+.contact .section-sub {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contact .section-sub { color: #4a5a56; }
+
+.contact-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.contact .btn-ghost {
+  border-color: rgba(27, 38, 34, 0.25);
+  color: var(--text-dark);
+}
+.contact .btn-ghost:hover { border-color: var(--ocean-mid); }
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+  background: var(--snow);
+  color: #4a5a56;
+  text-align: center;
+  padding: 1.6rem 1.5rem 2.4rem;
+  font-size: 0.85rem;
+}
+
+/* ============================================
+   BACK TO TOP
+   ============================================ */
+.back-to-top {
+  position: fixed;
+  bottom: 1.8rem;
+  left: 1.8rem;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--sunrise);
+  color: var(--text-dark);
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+  z-index: 200;
+}
+
+.back-to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.back-to-top:hover { transform: translateY(-3px); }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 600px) {
+  .section { padding: 5rem 1.2rem 4rem; }
+  .hero-cta { flex-direction: column; align-items: stretch; }
+  .contact-actions { flex-direction: column; align-items: stretch; }
+}

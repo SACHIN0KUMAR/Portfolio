@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sachin Kumar — B.Tech CSE Student &amp; Web Dev Learner</title>
+<meta name="description" content="Portfolio of Sachin Kumar, 1st year B.Tech CSE student at Chaibasa Engineering College, learning web development.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Trail progress indicator (desktop signature element) -->
+<div class="trail-progress" aria-hidden="true">
+  <div class="trail-line">
+    <div class="trail-fill" id="trailFill"></div>
+  </div>
+  <div class="trail-markers">
+    <span class="trail-dot" data-section="hero"></span>
+    <span class="trail-dot" data-section="about"></span>
+    <span class="trail-dot" data-section="skills"></span>
+    <span class="trail-dot" data-section="roadmap"></span>
+    <span class="trail-dot" data-section="projects"></span>
+    <span class="trail-dot" data-section="contact"></span>
+  </div>
+</div>
+
+<!-- Mobile top progress bar -->
+<div class="mobile-progress" id="mobileProgress" aria-hidden="true"></div>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-brand">SK<span class="brand-dot">.</span></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#about" class="nav-link">About</a>
+      <a href="#skills" class="nav-link">Skills</a>
+      <a href="#roadmap" class="nav-link">Roadmap</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO — Ocean depths -->
+  <section class="section hero" id="hero">
+    <div class="ocean-bubbles" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="hero-content reveal">
+      <p class="eyebrow mono">Base camp · Chaibasa Engineering College</p>
+      <h1 class="hero-title">
+        Sachin Kumar
+      </h1>
+      <p class="hero-role">1st Year B.Tech CSE Student · 2nd Semester</p>
+      <p class="hero-tagline">
+        Starting from the ocean floor of <span class="highlight">HTML, CSS &amp; JavaScript</span>,
+        climbing toward the peak of <span class="highlight">full-stack development &amp; system design</span>.
+      </p>
+      <div class="hero-cta">
+        <a href="#roadmap" class="btn btn-primary">See my climb</a>
+        <a href="#contact" class="btn btn-ghost">Get in touch</a>
+      </div>
+    </div>
+    <div class="scroll-hint reveal" aria-hidden="true">
+      <span>scroll to dive in</span>
+      <div class="scroll-hint-line"></div>
+    </div>
+    <svg class="wave-divider" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,64 C240,110 480,10 720,48 C960,86 1200,90 1440,50 L1440,120 L0,120 Z"></path>
+    </svg>
+  </section>
+
+  <!-- ABOUT — Ocean to Forest transition -->
+  <section class="section about" id="about">
+    <div class="section-inner">
+      <p class="eyebrow mono reveal">01 · Who I am</p>
+      <h2 class="section-title reveal">Still finding my depth, and I like it that way.</h2>
+
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>
+            I'm Sachin, a first-year Computer Science student figuring out what kind of
+            engineer I want to become. Right now that means late nights with dev tools open,
+            breaking things in the browser console, and slowly learning why they broke.
+          </p>
+          <p>
+            I'm not chasing a finished portfolio yet — I'm chasing the habit of building.
+            HTML and CSS taught me structure and shape. JavaScript is teaching me how things
+            actually think. Somewhere ahead is full-stack development and real system design,
+            and I'm walking toward it one project at a time.
+          </p>
+        </div>
+
+        <div class="about-card reveal">
+          <h3 class="mono">Education</h3>
+          <ul class="about-list">
+            <li>
+              <span class="about-label">Institute</span>
+              <span class="about-value">Chaibasa Engineering College</span>
+            </li>
+            <li>
+              <span class="about-label">Degree</span>
+              <span class="about-value">B.Tech, Computer Science &amp; Engineering</span>
+            </li>
+            <li>
+              <span class="about-label">Year</span>
+              <span class="about-value">1st Year</span>
+            </li>
+            <li>
+              <span class="about-label">Semester</span>
+              <span class="about-value">2nd Semester</span>
+            </li>
+            <li>
+              <span class="about-label">Focus</span>
+              <span class="about-value">Web Development → Full Stack</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <svg class="wave-divider wave-divider--forest" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,32 C360,90 1080,0 1440,56 L1440,120 L0,120 Z"></path>
+    </svg>
+  </section>
+
+  <!-- SKILLS — Forest, things growing -->
+  <section class="section skills" id="skills">
+    <div class="section-inner">
+      <p class="eyebrow mono reveal">02 · What's growing</p>
+      <h2 class="section-title reveal">Skills, sorted by how rooted they are.</h2>
+      <p class="section-sub reveal">Some are steady ground. Some are still sprouting. That's the honest version.</p>
+
+      <div class="skills-columns">
+        <div class="skill-group reveal">
+          <h3 class="skill-group-title">
+            <span class="skill-icon"></span> Steady ground
+          </h3>
+          <p class="skill-group-sub">Comfortable using these day to day</p>
+          <ul class="skill-bars">
+            <li>
+              <div class="skill-bar-head"><span>HTML5</span><span class="mono skill-pct">85%</span></div>
+              <div class="skill-track"><div class="skill-fill" data-level="85"></div></div>
+            </li>
+            <li>
+              <div class="skill-bar-head"><span>CSS3</span><span class="mono skill-pct">75%</span></div>
+              <div class="skill-track"><div class="skill-fill" data-level="75"></div></div>
+            </li>
+            <li>
+              <div class="skill-bar-head"><span>JavaScript Basics</span><span class="mono skill-pct">60%</span></div>
+              <div class="skill-track"><div class="skill-fill" data-level="60"></div></div>
+            </li>
+            <li>
+              <div class="skill-bar-head"><span>Git &amp; GitHub</span><span class="mono skill-pct">50%</span></div>
+              <div class="skill-track"><div class="skill-fill" data-level="50"></div></div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="skill-group reveal">
+          <h3 class="skill-group-title">
+            <span class="skill-icon"></span> Currently sprouting
+          </h3>
+          <p class="skill-group-sub">Actively learning right now</p>
+          <div class="tag-cloud">
+            <span class="tag tag--growing">JavaScript (DOM &amp; ES6+)</span>
+            <span class="tag tag--growing">Responsive Design</span>
+            <span class="tag tag--growing">Problem Solving / DSA basics</span>
+          </div>
+        </div>
+
+        <div class="skill-group reveal">
+          <h3 class="skill-group-title">
+            <span class="skill-icon"></span> On the horizon
+          </h3>
+          <p class="skill-group-sub">Where I'm headed next</p>
+          <div class="tag-cloud">
+            <span class="tag tag--future">React</span>
+            <span class="tag tag--future">Node.js &amp; Express</span>
+            <span class="tag tag--future">Databases (SQL / MongoDB)</span>
+            <span class="tag tag--future">REST APIs</span>
+            <span class="tag tag--future">System Design</span>
+            <span class="tag tag--future">Data Structures &amp; Algorithms</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROADMAP — Forest to Mountain, the trail -->
+  <section class="section roadmap" id="roadmap">
+    <div class="section-inner">
+      <p class="eyebrow mono reveal">03 · The trail ahead</p>
+      <h2 class="section-title reveal">My route to full-stack &amp; system design.</h2>
+      <p class="section-sub reveal">A real order, not a random list — each stop needs the one before it.</p>
+
+      <ol class="trail-path">
+        <li class="trail-stop trail-stop--done reveal">
+          <span class="trail-stop-marker mono">1</span>
+          <div class="trail-stop-body">
+            <h3>Foundations</h3>
+            <p>HTML, CSS &amp; JavaScript basics — the shape, style and behavior of a page.</p>
+            <span class="status-pill status-pill--done">Base camp reached</span>
+          </div>
+        </li>
+        <li class="trail-stop trail-stop--current reveal">
+          <span class="trail-stop-marker mono">2</span>
+          <div class="trail-stop-body">
+            <h3>Deepening JavaScript</h3>
+            <p>DOM manipulation, ES6+, async basics, and actually building small tools with it.</p>
+            <span class="status-pill status-pill--current">Currently climbing</span>
+          </div>
+        </li>
+        <li class="trail-stop reveal">
+          <span class="trail-stop-marker mono">3</span>
+          <div class="trail-stop-body">
+            <h3>Frontend Frameworks</h3>
+            <p>React — components, state, and building interfaces that scale beyond one file.</p>
+            <span class="status-pill">Ahead</span>
+          </div>
+        </li>
+        <li class="trail-stop reveal">
+          <span class="trail-stop-marker mono">4</span>
+          <div class="trail-stop-body">
+            <h3>Backend &amp; Databases</h3>
+            <p>Node.js, Express, REST APIs, and SQL/NoSQL databases to make things persistent.</p>
+            <span class="status-pill">Ahead</span>
+          </div>
+        </li>
+        <li class="trail-stop reveal">
+          <span class="trail-stop-marker mono">5</span>
+          <div class="trail-stop-body">
+            <h3>System Design</h3>
+            <p>Scalability, architecture, trade-offs — how real systems are built to survive load.</p>
+            <span class="status-pill">Ahead</span>
+          </div>
+        </li>
+        <li class="trail-stop trail-stop--summit reveal">
+          <span class="trail-stop-marker mono">6</span>
+          <div class="trail-stop-body">
+            <h3>Full-Stack Summit</h3>
+            <p>Shipping complete products end-to-end, with the architecture to back them up.</p>
+            <span class="status-pill status-pill--summit">The goal</span>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- PROJECTS — Mountain slope -->
+  <section class="section projects" id="projects">
+    <div class="section-inner">
+      <p class="eyebrow mono reveal">04 · Early builds</p>
+      <h2 class="section-title reveal">First projects from the lower slopes.</h2>
+      <p class="section-sub reveal">Small, still rough around the edges, and growing with every semester.</p>
+
+      <div class="project-grid">
+        <article class="project-card reveal">
+          <div class="project-card-top">
+            <span class="mono project-tag">Learning project</span>
+          </div>
+          <h3>Responsive Landing Page</h3>
+          <p>A multi-section landing page built with pure HTML &amp; CSS — practicing layout, flexbox and responsive breakpoints.</p>
+          <div class="project-links">
+            <a href="#" class="project-link">GitHub ↗</a>
+            <a href="#" class="project-link">Live demo ↗</a>
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="project-card-top">
+            <span class="mono project-tag">Learning project</span>
+          </div>
+          <h3>To-Do List App</h3>
+          <p>A vanilla JavaScript to-do app with add, complete and delete — my first real DOM manipulation project.</p>
+          <div class="project-links">
+            <a href="#" class="project-link">GitHub ↗</a>
+            <a href="#" class="project-link">Live demo ↗</a>
+          </div>
+        </article>
+
+        <article class="project-card project-card--upcoming reveal">
+          <div class="project-card-top">
+            <span class="mono project-tag project-tag--upcoming">Next up</span>
+          </div>
+          <h3>Weather App with API</h3>
+          <p>Planning to fetch live data from a weather API — my first step into working with external APIs.</p>
+          <div class="project-links">
+            <span class="project-link project-link--disabled">Coming soon</span>
+          </div>
+        </article>
+      </div>
+    </div>
+    <svg class="wave-divider wave-divider--snow" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,70 L120,55 L260,75 L420,30 L600,68 L760,20 L940,60 L1120,35 L1300,58 L1440,40 L1440,120 L0,120 Z"></path>
+    </svg>
+  </section>
+
+  <!-- CONTACT — Summit -->
+  <section class="section contact" id="contact">
+    <div class="section-inner">
+      <p class="eyebrow mono reveal">05 · The summit view</p>
+      <h2 class="section-title reveal">Let's connect.</h2>
+      <p class="section-sub reveal">
+        Always happy to talk about web dev, hackathons, or just compare notes on what we're learning.
+      </p>
+
+      <div class="contact-actions reveal">
+        <button class="btn btn-primary" id="copyEmailBtn" data-email="sac2k21batch@gmail.com">
+          <span id="copyEmailText">Copy my email</span>
+        </button>
+        <a href="https://github.com/SACHIN0KUMAR" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">GitHub ↗</a>
+        <a href="https://www.linkedin.com/in/sachin-kumar-666837366/" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">LinkedIn ↗</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>Built from scratch by Sachin Kumar · HTML, CSS &amp; JS · <span id="footerYear"></span></p>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+
+<script src="script.js"></script>
+</body>
+</html>
